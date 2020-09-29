@@ -1,0 +1,158 @@
+#: import hex kivy.utils.get_color_from_hex
+#: import images_path kivymd.images_path
+#: import Window kivy.core.window.Window
+
+
+<ButtonLabel@ButtonBehavior+MDLabel>:
+    canvas.before:
+        Color:
+            rgba: hex("#877BBA") if self.state == 'normal' else hex('#30BCED')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+
+<TaskWidget@BoxLayout>:
+    orientation:'vertical'
+    size_hint_y:None
+    canvas.before:
+        Color:
+            rgba: hex('#877BBA') #if self.state == 'normal' else hex('#30BCED')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [30,30,0,0]
+    text:''
+    name:''
+    value:0
+    transition_width:55
+    source:f'{images_path}/transparent.png'
+
+    BoxLayout:
+        spacing:'25dp'
+        padding:[25,0,0,0]
+
+        MDIconButton:
+            icon_text:'chevron-down'
+            canvas.before:
+                Color:
+                    rgba:hex('#30BCED')
+                RoundedRectangle:
+                    pos:self.x+5, self.y
+                    size:self.width-10, self.height
+
+
+            pos_hint:{'center_y':0.5}
+            icon:self.icon_text
+            width:55
+            size_hint_x:None
+            on_release:app.root.rotate_anim(self.parent.parent)
+
+        ButtonLabel:
+            canvas.before:
+                Color:
+                    rgba:hex('#30BCED')
+                RoundedRectangle:
+                    pos:self.x, self.y + 7.5
+                    size:self.width, self.height - 15
+            on_press:app.root.show_dialog(self, self.parent.parent)
+            size_hint_x:0.7
+            text:root.text
+
+        Image:
+            source: root.source#r"assets/Images/status/Over Schedule Task.png" #f'{images_path}/transparent.png'
+            size_hint_y:None
+            height:self.parent.minimum_height
+            pos_hint:{'center_y':0.5}
+            size_hint_x:None
+            width:root.transition_width
+
+        MDIconButton:
+            icon:'delete'
+            pos_hint:{'center_y':0.5}
+            size_hint_x:None
+            width:55
+            on_release:app.root.delete_anim(self.parent.parent, root, 'Main') #app.root.delete(root)
+
+    MDProgressBar:
+        canvas.before:
+            Color:
+                rgba:hex('#30BCED')
+            Rectangle:
+                pos:self.x, self.y-2.5
+                size:self.width, self.height
+        size_hint_y:None
+        height:'5dp'
+        value:root.value
+        color:hex('#002E47')
+        width:root.width
+
+
+<ButtonLabel2@ButtonBehavior+MDLabel>:
+    canvas.before:
+        Color:
+            rgba: (0.345, 0.2549, 0.3254, 1) if self.state == 'normal' else (0.5843, 0.2196, 0.6196, 1) # hex('#30BCED')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+
+<SubTask@BoxLayout>:
+    text:''
+    orientation:'vertical'
+    canvas.before:
+        Color:
+            rgba: (0.345, 0.2549, 0.3254, 1) #if self.state == 'normal' else hex('#30BCED')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [0,30,30,0]
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint_y:None
+        height:self.parent.height
+        spacing:dp(15)
+        BoxLayout:
+            size_hint_y:None
+            size_hint_x:None
+            height:self.parent.height
+            width:20
+            orientation:'vertical'
+            canvas.before:
+                Color:
+                    rgba:(0.4745, 0.3058, 0.749, 1)
+                Rectangle:
+                    pos:self.x + 5, self.y + 5
+                    size:self.width, self.height - 10
+
+        ButtonLabel2:
+            text:root.text
+            size_hint_x:0.7
+            markup:True
+            canvas.before:
+                Color:
+                    rgba:(0.5843, 0.2196, 0.6196, 1)
+                RoundedRectangle:
+                    pos:self.x, self.y + 7.5
+                    size:self.width, self.height - 15
+                    radius:[0,20,20,0]
+            on_press:app.root.show_sub_dialog(self, self.parent.parent)
+
+
+        MDCheckbox:
+            canvas.before:
+                Color:
+                    rgba:1,0,0,0
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            size_hint_x:0.1
+            unselected_color: (0.745, 0.4058, 0.449, 1)
+            selected_color: (0.745, 0.3058, 0.349, 1)
+            #on_state:app.root.check_progress()
+
+        MDIconButton:
+            icon:'delete'
+            pos_hint:{'center_y':0.5}
+            size_hint_x:0.1
+            theme_text_color:'Custom'
+            text_color:(0.745, 0.3058, 0.349, 1)
+            on_release:app.root.sub_delete_anim(self.parent.parent)

@@ -1,0 +1,6 @@
+A task was completed within the correct timeframe
+A task was completed but not within the allotted timeframe
+A task is still in the phase of being completed
+The corresponding task has not been completed on time and is overdue
+The task has been started started
+Task hasn't been started 
